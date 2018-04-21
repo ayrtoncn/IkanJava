@@ -1,5 +1,4 @@
 
-
 import java.util.Date;
 import java.util.Random;
 import java.util.UUID;
@@ -46,8 +45,8 @@ public class Guppy extends Fish {
    * 
    */
   public void guppyController() {
-    Random rand = new Random();
     prevtime = System.nanoTime();
+    Random rand = new Random();
     delay = rand.nextDouble() % 4 + 1;
     direction = rand.nextDouble() % 8 + 1;
     Date timestamp = new Date();
@@ -55,8 +54,8 @@ public class Guppy extends Fish {
     boolean running = true;
     while (running) {
       now = System.nanoTime();
-      secSinceLast = now - prevtime;
       hungerPeriod -= secSinceLast;
+      secSinceLast = now - prevtime;
       coinPeriod -= secSinceLast;
       prevtime = now;
       if (hungerPeriod <= 10 && hungerPeriod >= 0) {
@@ -64,11 +63,7 @@ public class Guppy extends Fish {
       } else if (hungerPeriod < 0) {
         name = "die";
       }
-      if (coinPeriod <= 0) {
-        dropCoin = true;
-      } else {
-        dropCoin = false; 
-      }
+      dropCoin = coinPeriod <= 0;
       move();
     }
     position.setAbsis(-100);

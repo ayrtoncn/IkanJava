@@ -212,6 +212,8 @@ public abstract class Fish implements CoinProducer {
       }
     } else {
       double dest;
+      secSinceLast = secSinceLast / 1000000000;
+      secSinceLast = secSinceLast / 10;
       dest = Math.atan2(destination.getOrdinat() 
           - position.getOrdinat(),destination.getAbsis() - position.getAbsis());
       if ((direction <= 3.14 && direction >= (3.14 / 2)) 
@@ -222,7 +224,7 @@ public abstract class Fish implements CoinProducer {
       }
       position.setAbsis(position.getAbsis() + movementSpeed * secSinceLast * Math.cos(dest));
       position.setOrdinat(position.getOrdinat() + movementSpeed 
-          * secSinceLast * Math.sin(dest));    
+          * secSinceLast * Math.sin(dest));
     }
   }
   
