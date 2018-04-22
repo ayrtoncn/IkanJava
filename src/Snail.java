@@ -1,6 +1,6 @@
 
 
-public class Snail implements CoinGatherer {
+public class Snail extends Thread implements CoinGatherer {
   private boolean running;
   private int orientation;
   private int movementSpeed;
@@ -10,6 +10,8 @@ public class Snail implements CoinGatherer {
   private double snailPrevtime;
   private double snailSecSinceLast;
   private boolean chase;
+  private Thread tsnail;
+  private String threadName;
   
   /**
    * constructor of snail.
@@ -18,12 +20,13 @@ public class Snail implements CoinGatherer {
     this.running = true;
     this.orientation = 'l';
     this.movementSpeed = 30;
-    this.position = new Point(80,80);
+    this.position = new Point(80,660);
     this.setpoint = new Point(0,0);
     this.snailNow = 0;
     this.snailPrevtime = 0;
     this.snailSecSinceLast = 0;
     this.chase = false;
+    this.threadName = "Gary";
   }
   
   public void takeCoin() {
@@ -62,11 +65,11 @@ public class Snail implements CoinGatherer {
     this.position = position;
   }
 
-  public Point getsetpoint() {
+  public Point getSetpoint() {
     return setpoint;
   }
 
-  public void setsetpoint(Point setpoint) {
+  public void setSetpoint(Point setpoint) {
     this.setpoint = setpoint;
   }
 
@@ -113,6 +116,38 @@ public class Snail implements CoinGatherer {
     } else {
       orientation = 'l';
     }
+    snailSecSinceLast /= 1000000000;
     position.setAbsis(position.getAbsis() + movementSpeed * snailSecSinceLast * Math.cos(dest));
+  }
+  public void run() {
+    try {
+      snailPrevtime = System.nanoTime();
+      chase = false;
+      running = true;
+      while (running) {
+        Thread.sleep(50);
+        snailNow = System.nanoTime();
+        snailSecSinceLast = snailNow - snailPrevtime;
+        snailPrevtime = snailNow;
+        if (chase) {
+          
+          if (!(setpoint.getAbsis() - 10 <= position.getAbsis() && setpoint.getAbsis() + 10 >= position.getAbsis())) {
+            move();
+          }
+        }
+      }
+        // Let the thread sleep for a while.
+        
+      
+    } catch (InterruptedException e) {
+      System.out.println("Thread Snail interrupted.");
+    }
+    System.out.println("Thread Snail exiting.");
+  }
+  public void start () {
+    if (tsnail == null) {
+      tsnail = new Thread (this, threadName);
+      tsnail.start ();
+    }
   }
 }

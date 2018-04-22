@@ -1,4 +1,4 @@
-package ikanmedhok;
+
 
 import java.lang.ArrayIndexOutOfBoundsException;
 
