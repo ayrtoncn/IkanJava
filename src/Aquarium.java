@@ -18,7 +18,7 @@ public class Aquarium extends JPanel {
   private LinkedList<Piranha> piranha;
   private LinkedList<Coin> coins;
   //private LinkedList<Food> foods;
-  static public Snail snail;
+  private Snail snail;
   private boolean menu;
   public static JFrame f = new JFrame();
   
@@ -26,10 +26,11 @@ public class Aquarium extends JPanel {
    * run berisi kode untuk mengatur interaksi antar objek dan mengatur input - input .
    */
   
-  public static void main(String[] args)  {
+  public void run()  {
     snail = new Snail();
-    Aquarium m = new Aquarium();
-    f.add(m);
+    guppy = new LinkedList<>();
+    piranha =  new LinkedList<>();
+    f.add(this);
     f.addMouseListener(new MouseAdapter() {
       @Override
       public void mouseClicked(MouseEvent e) {
@@ -47,16 +48,19 @@ public class Aquarium extends JPanel {
       @Override
       public void keyPressed(KeyEvent e) {
         super.keyPressed(e);
-        if (e.getKeyCode() == KeyEvent.VK_B) {
-          System.out.println("b");
+        if (e.getKeyCode() == KeyEvent.VK_G) {
+          guppy.add(new Guppy(new Point(50,100),'l'));
+          guppy.get(guppy.getAmount() - 1).start();
         } else if (e.getKeyCode() == KeyEvent.VK_P) {
-          System.out.println("P");
+          piranha.add(new Piranha(new Point(50,100),'l'));
+          piranha.get(piranha.getAmount() - 1).start();
         }
       }
     });
     f.setSize(width,height);
     f.setVisible(true);
     snail.start();
+    
   }
   
   /**
@@ -66,17 +70,50 @@ public class Aquarium extends JPanel {
   public void paint(Graphics g) {
     
     Toolkit t = Toolkit.getDefaultToolkit();
-    if (Aquarium.snail.getOrientation() == 'l') {
-      g.drawImage(t.getImage("src/img/snailkiri.png"),(int)Aquarium.snail.getPosition().getAbsis(),
-        (int)Aquarium.snail.getPosition().getOrdinat(),this);
+    g.drawImage(t.getImage("src/img/bg1.jpg"),0, 0,this);
+    if (snail.getOrientation() == 'l') {
+      g.drawImage(t.getImage("src/img/snailkiri.png"),(int)snail.getPosition().getAbsis(),
+          (int)snail.getPosition().getOrdinat(),this);
     } else {
-      g.drawImage(t.getImage("src/img/snailkanan.png"),(int)Aquarium.snail.getPosition().getAbsis(),
-        (int)Aquarium.snail.getPosition().getOrdinat(),this);
+      g.drawImage(t.getImage("src/img/snailkanan.png"),(int)snail.getPosition().getAbsis(),
+          (int)snail.getPosition().getOrdinat(),this);
+    }
+    for (int numGup = 0;numGup < guppy.getAmount();numGup++) {
+      if (guppy.get(numGup).getOrientation() == 'l') {
+        String link;
+        if (guppy.get(numGup).getGrowthLevel() < 3) {
+          link = "src/img/ikankiri1.png";
+        } else if (guppy.get(numGup).getGrowthLevel() < 6) {
+          link = "src/img/ikankiri2.png";
+        } else {
+          link = "src/img/ikankiri3.png";
+        }
+        g.drawImage(t.getImage(link), (int)guppy.get(numGup).getPosition().getAbsis(),
+            (int)guppy.get(numGup).getPosition().getOrdinat(),this);
+      } else {
+        String link;
+        if (guppy.get(numGup).getGrowthLevel() < 3) {
+          link = "src/img/ikankanan1.png";
+        } else if (guppy.get(numGup).getGrowthLevel() < 6) {
+          link = "src/img/ikankanan2.png";
+        } else {
+          link = "src/img/ikankanan3.png";
+        }
+        g.drawImage(t.getImage(link), (int)guppy.get(numGup).getPosition().getAbsis(),
+            (int)guppy.get(numGup).getPosition().getOrdinat(),this);
+      }
+    }
+    for (int numPin = 0;numPin < piranha.getAmount();numPin++) {
+      if (piranha.get(numPin).getOrientation() == 'l') {
+        g.drawImage(t.getImage("src/img/piranhakiri.png"),
+            (int) piranha.get(numPin).getPosition().getAbsis(),
+            (int) piranha.get(numPin).getPosition().getOrdinat(), this);
+      } else {
+        g.drawImage(t.getImage("src/img/piranhakanan.png"),
+            (int) piranha.get(numPin).getPosition().getAbsis(),
+            (int) piranha.get(numPin).getPosition().getOrdinat(), this);
+      }
     }
     f.repaint();
-//    for (int i = 0; i < ikan.size();i++) {
-//      g.drawImage(t.getImage("src/ikankiri.png"), (int)ikan.get(i).getPosition().getAbsis(),
-//          (int)ikan.get(i).getPosition().getOrdinat(),this);
-//  }
   }
 }

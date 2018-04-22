@@ -4,12 +4,14 @@ import java.util.Random;
 import java.util.UUID;
 import java.util.concurrent.TimeUnit;
 
-public class Guppy extends Fish {
+public class Guppy extends Fish implements Runnable {
   private int growthLevel;
   private static double guppyCoinPeriod = 5;
   private static double guppyHungerPeriod = 15;
   private static int guppyMovementSpeed = 80;
   private static int guppyPrice = 10;
+  private Thread threadGuppy;
+  private String threadName;
 
   /**Constructor Guppy.
    * 
@@ -20,6 +22,7 @@ public class Guppy extends Fish {
     super("Guppy", guppyPrice, guppyHungerPeriod, guppyCoinPeriod, guppyMovementSpeed,
         position, orientation);
     growthLevel = 0;
+    threadName = name;
   }
   
   public int getGrowthLevel() {
@@ -35,24 +38,30 @@ public class Guppy extends Fish {
    */
   public void eat() {
     hungerPeriod = 15;
-    Point p = new Point();
-    destination = p;
+    chase = false;
     hungry = false;
     growthLevel++;
   }
   
-  /**Controller for Class Guppy.
-   * 
+  /**
+   * run thread.
    */
-  public void guppyController() {
+  public void run() {
     prevtime = System.nanoTime();
     Random rand = new Random();
-    delay = rand.nextDouble() % 4 + 1;
-    direction = rand.nextDouble() % 8 + 1;
-    Date timestamp = new Date();
-    start = timestamp.getTime();
+    delay =  1 + rand.nextDouble() * 3 * 1000000000;
+    direction = rand.nextInt(180) / 180.0;
+    if (rand.nextBoolean()) {
+      direction = direction * -1;
+    }
+    start = System.nanoTime();
     boolean running = true;
     while (running) {
+      try {
+        Thread.sleep(50);
+      } catch (InterruptedException e) {
+        System.out.println("Thread Guppy interrupted.");
+      }
       now = System.nanoTime();
       hungerPeriod -= secSinceLast;
       secSinceLast = now - prevtime;
@@ -68,5 +77,15 @@ public class Guppy extends Fish {
     }
     position.setAbsis(-100);
     position.setOrdinat(-100);
+  }
+  
+  /**
+   * start thread.
+   */
+  public void start() {
+    if (threadGuppy == null) {
+      threadGuppy = new Thread(this, threadName);
+      threadGuppy.start();
+    }
   }
 }

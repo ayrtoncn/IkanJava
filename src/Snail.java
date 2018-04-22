@@ -119,6 +119,10 @@ public class Snail extends Thread implements CoinGatherer {
     snailSecSinceLast /= 1000000000;
     position.setAbsis(position.getAbsis() + movementSpeed * snailSecSinceLast * Math.cos(dest));
   }
+  
+  /**
+   * run thread.
+   */
   public void run() {
     try {
       snailPrevtime = System.nanoTime();
@@ -131,12 +135,13 @@ public class Snail extends Thread implements CoinGatherer {
         snailPrevtime = snailNow;
         if (chase) {
           
-          if (!(setpoint.getAbsis() - 10 <= position.getAbsis() && setpoint.getAbsis() + 10 >= position.getAbsis())) {
+          if (!(setpoint.getAbsis() - 10 <= position.getAbsis()
+              && setpoint.getAbsis() + 10 >= position.getAbsis())) {
             move();
           }
         }
       }
-        // Let the thread sleep for a while.
+      // Let the thread sleep for a while.
         
       
     } catch (InterruptedException e) {
@@ -144,10 +149,14 @@ public class Snail extends Thread implements CoinGatherer {
     }
     System.out.println("Thread Snail exiting.");
   }
-  public void start () {
+  
+  /**
+   * start thread.
+   */
+  public void start() {
     if (tsnail == null) {
-      tsnail = new Thread (this, threadName);
-      tsnail.start ();
+      tsnail = new Thread(this, threadName);
+      tsnail.start();
     }
   }
 }

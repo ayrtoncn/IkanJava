@@ -196,32 +196,46 @@ public abstract class Fish implements CoinProducer {
    */
   
   public void move() {
-    Date timestamp = new Date();
-    start = timestamp.getTime();
-    if (chase) {
-      if ((timestamp.getTime() - start) <=  delay) {
+    if ((direction <= 3.14 && direction >= (3.14 / 2))
+        || (direction >= -3.14 && direction <= -(3.14 / 2))) {
+      orientation = 'l';
+    } else {
+      orientation = 'r';
+    }
+    if (!chase) {
+      if (position.getAbsis() <= 50) {
+        direction = 0;
+        start = System.nanoTime();
+      } else if (position.getAbsis() >= 1000 - 50) {
+        direction = 3.14;
+        start = System.nanoTime();
+      } else if (position.getOrdinat() >= 800 - 50) {
+        direction = -3.14 / 2;
+        start = System.nanoTime();
+      } else if (position.getOrdinat() <= 50) {
+        direction = 3.14 / 2;
+        start = System.nanoTime();
+      }
+      if ((System.nanoTime() - start) <=  delay) {
+       
+        secSinceLast = secSinceLast / 1000000000;
         position.setAbsis(position.getAbsis() + movementSpeed * secSinceLast * Math.cos(direction));
         position.setOrdinat(position.getOrdinat() + movementSpeed 
             * secSinceLast * Math.sin(direction));
-
       } else {
-        start = timestamp.getTime();
+        start = System.nanoTime();
         Random rand = new Random();
-        delay = 1 + (3 * rand.nextDouble());
-        direction = rand.nextInt(180) / 180; 
+        delay = 1 + (3 * rand.nextDouble()) * 1000000000;
+        direction = rand.nextInt(180) / 180.0;
+        if (rand.nextBoolean()) {
+          direction = direction * -1;
+        }
       }
     } else {
       double dest;
-      secSinceLast = secSinceLast / 1000000000;
-      secSinceLast = secSinceLast / 10;
+      secSinceLast = secSinceLast / 100000000;
       dest = Math.atan2(destination.getOrdinat() 
           - position.getOrdinat(),destination.getAbsis() - position.getAbsis());
-      if ((direction <= 3.14 && direction >= (3.14 / 2)) 
-          || (direction >= -3.14 && direction <= -(3.14 / 2))) {
-        orientation = 'l';
-      } else {
-        orientation = 'r';
-      }
       position.setAbsis(position.getAbsis() + movementSpeed * secSinceLast * Math.cos(dest));
       position.setOrdinat(position.getOrdinat() + movementSpeed 
           * secSinceLast * Math.sin(dest));
