@@ -196,13 +196,25 @@ final class Aquarium extends JPanel {
         }
         for (int numPin = 0;numPin < piranha.getAmount();numPin++) {
           if (piranha.get(numPin).getOrientation() == 'l') {
-            g.drawImage(t.getImage("src/img/piranhakiri.png"),
-                (int) piranha.get(numPin).getPosition().getAbsis(),
-                (int) piranha.get(numPin).getPosition().getOrdinat(), this);
+            if (!piranha.get(numPin).isHungry()) {
+              g.drawImage(t.getImage("src/img/piranhakiri.png"),
+                  (int) piranha.get(numPin).getPosition().getAbsis(),
+                  (int) piranha.get(numPin).getPosition().getOrdinat(), this);
+            } else {
+              g.drawImage(t.getImage("src/img/piranhakirilaper.png"),
+                  (int) piranha.get(numPin).getPosition().getAbsis(),
+                  (int) piranha.get(numPin).getPosition().getOrdinat(), this);
+            }
           } else {
-            g.drawImage(t.getImage("src/img/piranhakanan.png"),
-                (int) piranha.get(numPin).getPosition().getAbsis(),
-                (int) piranha.get(numPin).getPosition().getOrdinat(), this);
+            if (!piranha.get(numPin).isHungry()) {
+              g.drawImage(t.getImage("src/img/piranhakanan.png"),
+                  (int) piranha.get(numPin).getPosition().getAbsis(),
+                  (int) piranha.get(numPin).getPosition().getOrdinat(), this);
+            } else {
+              g.drawImage(t.getImage("src/img/piranhakananlaper.png"),
+                  (int) piranha.get(numPin).getPosition().getAbsis(),
+                  (int) piranha.get(numPin).getPosition().getOrdinat(), this);
+            }
           }
         }
         for (int numFood = 0; numFood < foods.getAmount(); numFood++) {
