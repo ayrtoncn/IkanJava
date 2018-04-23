@@ -24,21 +24,25 @@ public class Piranha extends Fish implements  Runnable {
   /**
    * Prosedur Piranha memakan Guppy.
    */
-  public void eat(Guppy g) {
+  public synchronized void eat(Guppy g) {
     hungerPeriod = piranhaHungryPeriod;
     chase = false;
     hungry = false;
     int level;
-    if (g.getGrowthLevel() <= 3) {
-      level = 2;
-    } else if (g.getGrowthLevel() <= 6) {
-      level = 3;
-    } else {
-      level = 4;
+    try {
+      Aquarium.guppy.get(Aquarium.guppy.find(g)).stop();
+      Aquarium.guppy.del(Aquarium.guppy.find(g));
+      if (g.getGrowthLevel() <= 3) {
+        level = 2;
+      } else if (g.getGrowthLevel() <= 6) {
+        level = 3;
+      } else {
+        level = 4;
+      }
+      dropCoin(g.getPrice() * level);
+    } catch (Exception e) {
+      System.out.println("out");
     }
-    dropCoin(g.getPrice() * level);
-    Aquarium.guppy.get(Aquarium.guppy.find(g)).stop();
-    Aquarium.guppy.del(Aquarium.guppy.find(g));
   }
   
   /**
@@ -49,20 +53,31 @@ public class Piranha extends Fish implements  Runnable {
     double min = 999999999;
     int idx = -1;
     chase = false;
-    for (int numGup = 0; numGup < Aquarium.guppy.getAmount(); numGup++) {
-      double temp = position.getDistance(Aquarium.guppy.get(numGup).getPosition());
-      if (min > temp) {
-        min = temp;
-        idx = numGup;
-        pmin = Aquarium.guppy.get(numGup).getPosition();
+    try {
+      for (int numGup = 0; numGup < Aquarium.guppy.getAmount(); numGup++) {
+        double temp = position.getDistance(Aquarium.guppy.get(numGup).getPosition());
+        if (min > temp) {
+          min = temp;
+          idx = numGup;
+          pmin = Aquarium.guppy.get(numGup).getPosition();
+        }
       }
-    }
-    if (idx != -1) {
-      chase = true;
-      setpoint = pmin;
-      if (min <= 80) {
-        eat(Aquarium.guppy.get(idx));
+      if (idx != -1) {
+        chase = true;
+        setpoint = pmin;
+        if (this.getPosition().getAbsis() + 50
+            >= Aquarium.guppy.get(idx).getPosition().getAbsis()
+            && this.getPosition().getAbsis() - 50
+            <= Aquarium.guppy.get(idx).getPosition().getAbsis()
+            && this.getPosition().getOrdinat() + 50
+            >= Aquarium.guppy.get(idx).getPosition().getOrdinat()
+            && this.getPosition().getOrdinat() - 50
+            <= Aquarium.guppy.get(idx).getPosition().getOrdinat()) {
+          eat(Aquarium.guppy.get(idx));
+        }
       }
+    } catch (Exception e) {
+      System.out.println("out");
     }
   }
   
@@ -81,7 +96,7 @@ public class Piranha extends Fish implements  Runnable {
     running = true;
     while (running) {
       try {
-        Thread.sleep(50);
+        Thread.sleep(1);
       } catch (InterruptedException e) {
         System.out.println("Thread Piranha interrupted.");
       }

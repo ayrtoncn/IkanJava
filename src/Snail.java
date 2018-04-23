@@ -19,7 +19,7 @@ public class Snail extends Thread implements CoinGatherer {
   public Snail() {
     this.running = true;
     this.orientation = 'l';
-    this.movementSpeed = 30;
+    this.movementSpeed = 50;
     this.position = new Point(80,Aquarium.height - 140);
     this.setpoint = new Point(0,0);
     this.snailNow = 0;
@@ -132,9 +132,9 @@ public class Snail extends Thread implements CoinGatherer {
     int idxFloor = -1;
     chase = false;
     for (int numCoin = 0; numCoin < Aquarium.coins.getAmount(); numCoin++) {
-      double temp = Math.sqrt(Math.pow(position.getOrdinat(),2));
-      double tempFloor = Math.sqrt(Math.pow(
-          (position.getAbsis() - Aquarium.coins.get(numCoin).getPosition().getAbsis()),2));
+      double temp = Aquarium.height - Aquarium.coins.get(numCoin).getPosition().getOrdinat();
+      double tempFloor = Math.sqrt(Math.pow((position.getAbsis()
+          - Aquarium.coins.get(numCoin).getPosition().getAbsis()),2));
       if (Aquarium.coins.get(numCoin).getPosition().getOrdinat() >= Aquarium.height - 100) {
         if (minFloor > tempFloor) {
           minFloor = tempFloor;
@@ -152,13 +152,26 @@ public class Snail extends Thread implements CoinGatherer {
     if (idxFloor != -1) {
       chase = true;
       setpoint = pminFloor;
-      if (minFloor <= 30) {
+      if (position.getAbsis() - 50
+          <= Aquarium.coins.get(idxFloor).getPosition().getAbsis()
+          && position.getAbsis() + 50
+          >= Aquarium.coins.get(idxFloor).getPosition().getAbsis()
+          && position.getOrdinat() + 50
+          >= Aquarium.coins.get(idxFloor).getPosition().getOrdinat()
+          && position.getOrdinat() - 50
+          <= Aquarium.coins.get(idxFloor).getPosition().getOrdinat()) {
         eat(Aquarium.coins.get(idxFloor));
       }
     } else if (idx != -1) {
       chase = true;
       setpoint = pmin;
-      if (min <= 30) {
+      if (this.getPosition().getAbsis() + 50 >= Aquarium.coins.get(idx).getPosition().getAbsis()
+          && this.getPosition().getAbsis() - 50
+          <= Aquarium.coins.get(idx).getPosition().getAbsis()
+          && this.getPosition().getOrdinat() + 50
+          >= Aquarium.coins.get(idx).getPosition().getOrdinat()
+          && this.getPosition().getOrdinat() - 50
+          <= Aquarium.coins.get(idx).getPosition().getOrdinat()) {
         eat(Aquarium.coins.get(idx));
       }
     }
@@ -182,7 +195,7 @@ public class Snail extends Thread implements CoinGatherer {
       chase = false;
       running = true;
       while (running) {
-        Thread.sleep(50);
+        Thread.sleep(1);
         snailNow = System.nanoTime();
         snailSecSinceLast = snailNow - snailPrevtime;
         snailPrevtime = snailNow;

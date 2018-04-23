@@ -78,6 +78,7 @@ public class Food implements Runnable {
   }
   
   public void stop() {
+    Aquarium.foods.del(Aquarium.foods.find(this));
     running = false;
   }
   
@@ -89,16 +90,17 @@ public class Food implements Runnable {
       foodPrevTime = System.nanoTime();
       running = true;
       while (running) {
-        Thread.sleep(50);
+        Thread.sleep(1);
         foodNow = System.nanoTime();
         foodSecSinceLast = foodNow - foodPrevTime;
         foodPrevTime = foodNow;
         
         if (position.getOrdinat() >= Aquarium.height - 100) {
-          Aquarium.foods.del(Aquarium.foods.find(this));
+          
           stop();
         } else {
-          position.setOrdinat(position.getOrdinat() + movementSpeed * foodSecSinceLast / 1000000000);
+          position.setOrdinat(position.getOrdinat()
+              + movementSpeed * foodSecSinceLast / 1000000000);
         }
       }
       // Let the thread sleep for a while.

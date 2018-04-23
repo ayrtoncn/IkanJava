@@ -65,7 +65,14 @@ public class Guppy extends Fish implements Runnable {
     if (min != 999999999) {
       chase = true;
       setpoint = pmin;
-      if (min <= 80) {
+      if (this.getPosition().getAbsis() + 50
+          >= Aquarium.foods.get(idx).getPosition().getAbsis()
+          && this.getPosition().getAbsis() - 50
+          <= Aquarium.foods.get(idx).getPosition().getAbsis()
+          && this.getPosition().getOrdinat() + 50
+          >= Aquarium.foods.get(idx).getPosition().getOrdinat()
+          && this.getPosition().getOrdinat() - 50
+          <= Aquarium.foods.get(idx).getPosition().getOrdinat()) {
         eat(Aquarium.foods.get(idx));
       }
     }
@@ -74,13 +81,17 @@ public class Guppy extends Fish implements Runnable {
   /**
    * Prosedur Guppy makan Food.
    */
-  public void eat(Food f) {
+  public synchronized void eat(Food f) {
     hungerPeriod = guppyHungerPeriod;
     chase = false;
     hungry = false;
     growthLevel++;
-    Aquarium.foods.get(Aquarium.foods.find(f)).stop();
-    Aquarium.foods.del(Aquarium.foods.find(f));
+    int foodIndex = Aquarium.foods.find(f);
+    try {
+      Aquarium.foods.get(foodIndex).stop();
+    } catch (Exception e) {
+      System.out.println("Eat exception");
+    }
   }
   
   public  void stop() {
@@ -102,7 +113,7 @@ public class Guppy extends Fish implements Runnable {
     running = true;
     while (running) {
       try {
-        Thread.sleep(50);
+        Thread.sleep(1);
       } catch (InterruptedException e) {
         System.out.println("Thread Guppy interrupted.");
       }

@@ -101,7 +101,7 @@ public class Coin implements Runnable {
       coinPrevTime = System.nanoTime();
       running = true;
       while (running) {
-        Thread.sleep(50);
+        Thread.sleep(1);
         coinNow = System.nanoTime();
         coinSecSinceLast = coinNow - coinPrevTime;
         coinPrevTime = coinNow;
@@ -109,7 +109,7 @@ public class Coin implements Runnable {
           running = false;
         } else {
           position.setOrdinat(position.getOrdinat()
-            + movementSpeed * coinSecSinceLast / 1000000000);
+              + movementSpeed * coinSecSinceLast / 1000000000);
         }
       }
       // Let the thread sleep for a while.
@@ -117,7 +117,7 @@ public class Coin implements Runnable {
     } catch (InterruptedException e) {
       System.out.println("Thread Coin interrupted.");
     }
-    System.out.println("Thread Coin exiting.");
+    System.out.println("Thread Coin exit.");
   }
   
   /**

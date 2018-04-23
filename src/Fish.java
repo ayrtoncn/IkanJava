@@ -203,22 +203,22 @@ public abstract class Fish implements CoinProducer {
       } else {
         orientation = 'r';
       }
-      if (position.getAbsis() <= 50) {
+      if (position.getAbsis() <= 140) {
         direction = 0;
         start = System.nanoTime();
-      } else if (position.getAbsis() >= Aquarium.width - 50) {
+      } else if (position.getAbsis() >= Aquarium.width - 140) {
         direction = 3.14;
         start = System.nanoTime();
-      } else if (position.getOrdinat() >= Aquarium.height - 50) {
+      } else if (position.getOrdinat() >= Aquarium.height - 140) {
         direction = -3.14 / 2;
         start = System.nanoTime();
-      } else if (position.getOrdinat() <= 50) {
+      } else if (position.getOrdinat() <= 140) {
         direction = 3.14 / 2;
         start = System.nanoTime();
       }
       if ((System.nanoTime() - start) <=  delay) {
         
-        secSinceLast = secSinceLast / 1000000000;
+        secSinceLast /= 1000000000;
         position.setAbsis(position.getAbsis() + movementSpeed * secSinceLast * Math.cos(direction));
         position.setOrdinat(position.getOrdinat() + movementSpeed
             * secSinceLast * Math.sin(direction));
@@ -233,7 +233,7 @@ public abstract class Fish implements CoinProducer {
       }
     } else {
       double dest;
-      secSinceLast = secSinceLast / 1000000000;
+      secSinceLast /= 1000000000;
       dest = Math.atan2(
         setpoint.getOrdinat() - position.getOrdinat(),setpoint.getAbsis() - position.getAbsis());
       if ((dest <= 3.14 && dest >= (3.14 / 2))
