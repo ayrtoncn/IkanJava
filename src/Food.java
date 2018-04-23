@@ -1,7 +1,5 @@
 
-
-
-public class Food {
+public class Food implements Runnable {
   private boolean running;
   private String name;
   private int movementSpeed;
@@ -9,16 +7,18 @@ public class Food {
   private double foodNow;
   private double foodPrevTime;
   private double foodSecSinceLast;
+  private Thread threadFood;
+  private String threadName;
   
   /**
    * Constructor for class Food.
    * @param absis = x-coordinate of food.
    */
   public Food(double absis) {
-    name = "";
-    movementSpeed = 20;
-    position.setAbsis(absis);
-    position.setOrdinat(0);
+    this.name = "Food";
+    this.movementSpeed = 50;
+    this.position = new Point(absis,0);
+    this.threadName = name;
   }
   
   public boolean isRunning() {
@@ -80,5 +80,43 @@ public class Food {
   public void stop() {
     running = false;
   }
-
+  
+  /**
+   * run thread.
+   */
+  public void run() {
+    try {
+      foodPrevTime = System.nanoTime();
+      running = true;
+      while (running) {
+        Thread.sleep(50);
+        foodNow = System.nanoTime();
+        foodSecSinceLast = foodNow - foodPrevTime;
+        foodPrevTime = foodNow;
+        
+        if (position.getOrdinat() >= Aquarium.height - 100) {
+          Aquarium.foods.del(Aquarium.foods.find(this));
+          stop();
+        } else {
+          position.setOrdinat(position.getOrdinat() + movementSpeed * foodSecSinceLast / 1000000000);
+        }
+      }
+      // Let the thread sleep for a while.
+      
+      
+    } catch (InterruptedException e) {
+      System.out.println("Thread Food interrupted.");
+    }
+    System.out.println("Thread Food exiting.");
+  }
+  
+  /**
+   * start thread.
+   */
+  public void start() {
+    if (threadFood == null) {
+      threadFood = new Thread(this, threadName);
+      threadFood.start();
+    }
+  }
 }

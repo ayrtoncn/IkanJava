@@ -13,6 +13,8 @@ public class Guppy extends Fish implements Runnable {
   private Thread threadGuppy;
   private String threadName;
 
+  
+
   /**Constructor Guppy.
    * 
    * @param position = posisi Guppy
@@ -33,14 +35,56 @@ public class Guppy extends Fish implements Runnable {
     this.growthLevel = growthLevel;
   }
   
-  /**Prosedur Guppy makan Food.
-   * 
+  /**
+   * create new coin on guppy position.
+   * @param value =  value of coins.
    */
-  public void eat() {
-    hungerPeriod = 15;
+  public void dropCoin(int value) {
+    coinPeriod = guppyCoinPeriod;
+    Coin temp = new Coin(value,50,new Point(position.getAbsis(),position.getOrdinat() + 20));
+    temp.start();
+    Aquarium.coins.add(temp);
+  }
+  
+  /**
+   * search nearest food.
+   */
+  public void searchFood() {
+    Point pmin = new Point();
+    double min = 999999999;
+    int idx = -1;
+    chase = false;
+    for (int numFood = 0; numFood < Aquarium.foods.getAmount(); numFood++) {
+      double temp = position.getDistance(Aquarium.foods.get(numFood).getPosition());
+      if (min > temp) {
+        min = temp;
+        idx = numFood;
+        pmin = Aquarium.foods.get(numFood).getPosition();
+      }
+    }
+    if (min != 999999999) {
+      chase = true;
+      setpoint = pmin;
+      if (min <= 80) {
+        eat(Aquarium.foods.get(idx));
+      }
+    }
+  }
+  
+  /**
+   * Prosedur Guppy makan Food.
+   */
+  public void eat(Food f) {
+    hungerPeriod = guppyHungerPeriod;
     chase = false;
     hungry = false;
     growthLevel++;
+    Aquarium.foods.get(Aquarium.foods.find(f)).stop();
+    Aquarium.foods.del(Aquarium.foods.find(f));
+  }
+  
+  public  void stop() {
+    running = false;
   }
   
   /**
@@ -55,7 +99,7 @@ public class Guppy extends Fish implements Runnable {
       direction = direction * -1;
     }
     start = System.nanoTime();
-    boolean running = true;
+    running = true;
     while (running) {
       try {
         Thread.sleep(50);
@@ -63,20 +107,32 @@ public class Guppy extends Fish implements Runnable {
         System.out.println("Thread Guppy interrupted.");
       }
       now = System.nanoTime();
-      hungerPeriod -= secSinceLast;
       secSinceLast = now - prevtime;
-      coinPeriod -= secSinceLast;
+      hungerPeriod -= secSinceLast / 1000000000;
+      coinPeriod -= secSinceLast / 1000000000;
       prevtime = now;
       if (hungerPeriod <= 10 && hungerPeriod >= 0) {
         hungry = true;
+        searchFood();
       } else if (hungerPeriod < 0) {
-        name = "die";
+        Aquarium.guppy.del(Aquarium.guppy.find(this));
+        running = false;
       }
-      dropCoin = coinPeriod <= 0;
+
+      if (coinPeriod <= 0) {
+        int value;
+        if (growthLevel <= 3) {
+          value = 10;
+        } else if (growthLevel <= 6) {
+          value = 20;
+        } else {
+          value = 30;
+        }
+        dropCoin(value);
+      }
       move();
     }
-    position.setAbsis(-100);
-    position.setOrdinat(-100);
+    System.out.println("Thread Guppy exiting.");
   }
   
   /**

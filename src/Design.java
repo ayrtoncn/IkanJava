@@ -12,6 +12,7 @@ import javax.swing.border.EmptyBorder;
 
 public class Design extends JPanel {
   public static ArrayList<Guppy> ikan = new ArrayList<>();
+  public static JFrame f = new JFrame();
   
   /**
    * Main program.
@@ -19,14 +20,13 @@ public class Design extends JPanel {
    * @throws IOException = wrong input exception.
    */
   public static void main(String[] args)  {
-    
+
     Guppy f1 = new Guppy(new Point(10,10),'l');
     Guppy f2 = new Guppy(new Point(30,30),'l');
     Guppy f3 = new Guppy(new Point(60,30),'l');
     ikan.add(f1);
     ikan.add(f2);
     Design m = new Design();
-    JFrame f = new JFrame();
     f.add(m);
     f.setSize(400,400);
     f.setVisible(true);
@@ -44,12 +44,12 @@ public class Design extends JPanel {
         ikan.get(1).move();
         System.out.println(ikan.get(1).getPosition().getAbsis());
         System.out.println(ikan.get(1).getPosition().getOrdinat());
-        f.repaint();
+        
       } catch (InterruptedException e) {
         System.out.println("Error");
       }
     }
-    
+
   }
   
   /**
@@ -59,10 +59,19 @@ public class Design extends JPanel {
   public void paint(Graphics g) {
 
     Toolkit t = Toolkit.getDefaultToolkit();
+//    if (Aquarium.snail.getOrientation() == 'l') {
+//      g.drawImage(t.getImage("src/img/snailkiri.png"),(int)Aquarium.snail.getPosition().getAbsis(),
+//        (int)Aquarium.snail.getPosition().getOrdinat(),this);
+//    } else {
+//      g.drawImage(t.getImage("src/img/snailkanan.png"),(int)Aquarium.snail.getPosition().getAbsis(),
+//        (int)Aquarium.snail.getPosition().getOrdinat(),this);
+//    }
+    f.repaint();
+    
     for (int i = 0; i < ikan.size();i++) {
       g.drawImage(t.getImage("src/ikankiri.png"), (int)ikan.get(i).getPosition().getAbsis(),
           (int)ikan.get(i).getPosition().getOrdinat(),this);
-    }
+  }
   }
 
 }

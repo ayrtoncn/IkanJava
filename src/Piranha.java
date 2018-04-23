@@ -24,10 +24,46 @@ public class Piranha extends Fish implements  Runnable {
   /**
    * Prosedur Piranha memakan Guppy.
    */
-  public void eat() {
-    hungerPeriod = 15;
+  public void eat(Guppy g) {
+    hungerPeriod = piranhaHungryPeriod;
     chase = false;
     hungry = false;
+    int level;
+    if (g.getGrowthLevel() <= 3) {
+      level = 2;
+    } else if (g.getGrowthLevel() <= 6) {
+      level = 3;
+    } else {
+      level = 4;
+    }
+    dropCoin(g.getPrice() * level);
+    Aquarium.guppy.get(Aquarium.guppy.find(g)).stop();
+    Aquarium.guppy.del(Aquarium.guppy.find(g));
+  }
+  
+  /**
+   * search nearest guppy.
+   */
+  public void searchFood() {
+    Point pmin = new Point();
+    double min = 999999999;
+    int idx = -1;
+    chase = false;
+    for (int numGup = 0; numGup < Aquarium.guppy.getAmount(); numGup++) {
+      double temp = position.getDistance(Aquarium.guppy.get(numGup).getPosition());
+      if (min > temp) {
+        min = temp;
+        idx = numGup;
+        pmin = Aquarium.guppy.get(numGup).getPosition();
+      }
+    }
+    if (idx != -1) {
+      chase = true;
+      setpoint = pmin;
+      if (min <= 80) {
+        eat(Aquarium.guppy.get(idx));
+      }
+    }
   }
   
   /**
@@ -42,32 +78,29 @@ public class Piranha extends Fish implements  Runnable {
       direction = direction * -1;
     }
     start = System.nanoTime();
-    boolean running = true;
+    running = true;
     while (running) {
       try {
         Thread.sleep(50);
       } catch (InterruptedException e) {
-        System.out.println("Thread Guppy interrupted.");
+        System.out.println("Thread Piranha interrupted.");
       }
       now = System.nanoTime();
       secSinceLast = now - prevtime;
-      hungerPeriod -= secSinceLast;
-      coinPeriod -= secSinceLast;
+      hungerPeriod -= secSinceLast / 1000000000;
+      coinPeriod -= secSinceLast / 1000000000;
       prevtime = now;
       if (hungerPeriod <= 10 && hungerPeriod >= 0) {
         hungry = true;
+        searchFood();
       } else if (hungerPeriod < 0) {
-        name = "die";
+        running = false;
+        Aquarium.piranha.del(Aquarium.piranha.find(this));
       }
-      if (coinPeriod <= 0) {
-        dropCoin = true;
-      } else {
-        dropCoin = false; 
-      }
+      
       move();
     }
-    position.setAbsis(-100);
-    position.setOrdinat(-100);
+    System.out.println("Thread Piranha exiting.");
   }
   
   /**
@@ -78,5 +111,15 @@ public class Piranha extends Fish implements  Runnable {
       threadPiranha = new Thread(this, threadName);
       threadPiranha.start();
     }
+  }
+  
+  /**
+   * create new coin on piraha position after eating guppy.
+   * @param value = guppy.growthLevel * guppy.price.
+   */
+  public void dropCoin(int value) {
+    Coin temp = new Coin(value,50,new Point(position.getAbsis(),position.getOrdinat() + 20));
+    temp.start();
+    Aquarium.coins.add(temp);
   }
 }

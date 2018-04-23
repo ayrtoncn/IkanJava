@@ -10,7 +10,7 @@ public class Snail extends Thread implements CoinGatherer {
   private double snailPrevtime;
   private double snailSecSinceLast;
   private boolean chase;
-  private Thread tsnail;
+  private Thread threadSnail;
   private String threadName;
   
   /**
@@ -20,7 +20,7 @@ public class Snail extends Thread implements CoinGatherer {
     this.running = true;
     this.orientation = 'l';
     this.movementSpeed = 30;
-    this.position = new Point(80,660);
+    this.position = new Point(80,Aquarium.height - 140);
     this.setpoint = new Point(0,0);
     this.snailNow = 0;
     this.snailPrevtime = 0;
@@ -121,6 +121,59 @@ public class Snail extends Thread implements CoinGatherer {
   }
   
   /**
+   * find nearest coin on floor or nearest coin from bottom.
+   */
+  public void searchFood() {
+    Point pmin = new Point();
+    Point pminFloor = new Point();
+    double min = 999999999;
+    double minFloor = 999999999;
+    int idx = -1;
+    int idxFloor = -1;
+    chase = false;
+    for (int numCoin = 0; numCoin < Aquarium.coins.getAmount(); numCoin++) {
+      double temp = Math.sqrt(Math.pow(position.getOrdinat(),2));
+      double tempFloor = Math.sqrt(Math.pow(
+          (position.getAbsis() - Aquarium.coins.get(numCoin).getPosition().getAbsis()),2));
+      if (Aquarium.coins.get(numCoin).getPosition().getOrdinat() >= Aquarium.height - 100) {
+        if (minFloor > tempFloor) {
+          minFloor = tempFloor;
+          idxFloor = numCoin;
+          pminFloor = Aquarium.coins.get(numCoin).getPosition();
+        }
+      } else {
+        if (min > temp) {
+          min = temp;
+          idx = numCoin;
+          pmin = Aquarium.coins.get(numCoin).getPosition();
+        }
+      }
+    }
+    if (idxFloor != -1) {
+      chase = true;
+      setpoint = pminFloor;
+      if (minFloor <= 30) {
+        eat(Aquarium.coins.get(idxFloor));
+      }
+    } else if (idx != -1) {
+      chase = true;
+      setpoint = pmin;
+      if (min <= 30) {
+        eat(Aquarium.coins.get(idx));
+      }
+    }
+  }
+  
+  /**
+   * Prosedur Guppy makan Food.
+   */
+  public void eat(Coin c) {
+    Aquarium.coins.get(Aquarium.coins.find(c)).stop();
+    Aquarium.coins.del(Aquarium.coins.find(c));
+    Aquarium.coin += c.getValue();
+  }
+  
+  /**
    * run thread.
    */
   public void run() {
@@ -133,8 +186,8 @@ public class Snail extends Thread implements CoinGatherer {
         snailNow = System.nanoTime();
         snailSecSinceLast = snailNow - snailPrevtime;
         snailPrevtime = snailNow;
+        searchFood();
         if (chase) {
-          
           if (!(setpoint.getAbsis() - 10 <= position.getAbsis()
               && setpoint.getAbsis() + 10 >= position.getAbsis())) {
             move();
@@ -154,9 +207,9 @@ public class Snail extends Thread implements CoinGatherer {
    * start thread.
    */
   public void start() {
-    if (tsnail == null) {
-      tsnail = new Thread(this, threadName);
-      tsnail.start();
+    if (threadSnail == null) {
+      threadSnail = new Thread(this, threadName);
+      threadSnail.start();
     }
   }
 }

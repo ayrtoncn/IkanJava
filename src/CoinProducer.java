@@ -1,5 +1,5 @@
 
 
 public interface CoinProducer {
-  public void dropCoin();
+  public void dropCoin(int value);
 }
