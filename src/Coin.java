@@ -118,6 +118,7 @@ public class Coin implements Runnable {
       System.out.println("Thread Coin interrupted.");
     }
     System.out.println("Thread Coin exit.");
+    running = false;
   }
   
   /**
@@ -126,6 +127,7 @@ public class Coin implements Runnable {
   public void start() {
     if (threadCoin == null) {
       threadCoin = new Thread(this, threadName);
+      running = true;
       threadCoin.start();
     }
   }

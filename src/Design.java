@@ -37,7 +37,7 @@ public class Design extends JPanel {
     System.out.println(ikan.get(1).getPosition().getOrdinat());
     for (int i = 1;i < 10000;i++) {
       try {
-        Thread.sleep(10);
+        Thread.sleep(1);
         ikan.get(1).setNow(System.nanoTime());
         ikan.get(1).setSecSinceLast(ikan.get(1).getNow() - ikan.get(1).getPrevtime());
         ikan.get(1).setPrevtime(ikan.get(1).getNow());

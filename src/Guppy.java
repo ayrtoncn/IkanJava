@@ -153,6 +153,7 @@ public class Guppy extends Fish implements Runnable {
     if (threadGuppy == null) {
       threadGuppy = new Thread(this, threadName);
       threadGuppy.start();
+      running = true;
     }
   }
 }

@@ -190,6 +190,10 @@ public abstract class Fish implements CoinProducer {
     this.name = name;
   }
   
+  public boolean isRunning() {
+    return running;
+  }
+  
   /**
    * move fish according to his/her setpoint point.
    *
