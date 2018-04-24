@@ -1,5 +1,5 @@
 
 
 public interface CoinGatherer {
-  public void takeCoin();
+  public void takeCoin(Coin c);
 }

@@ -68,7 +68,7 @@ final class Aquarium extends JPanel {
         }
       }
     });
-
+    
     f.addKeyListener(new KeyAdapter() {
       @Override
       public void keyPressed(KeyEvent e) {
@@ -121,14 +121,13 @@ final class Aquarium extends JPanel {
     g.setFont(new Font("TimesRoman",Font.PLAIN, 30));
     if (menu) {
       g.drawImage(t.getImage("src/img/bg1.jpg"),0, 0,this);
-      g.drawImage(t.getImage("src/img/start.png"),(width) / 2, (height) / 2,this);
+      g.drawImage(t.getImage("src/img/start.png"),(width - 140) / 2, (height - 140) / 2,this);
       String current = new String();
       try {
         current = new java.io.File( "." ).getCanonicalPath();
-      }catch(Exception e) {
-        
+      } catch (Exception e) {
+        System.out.println("Current dir:" + current);
       }
-      System.out.println("Current dir:"+current);
     } else {
       if (win) {
         g.drawImage(t.getImage("src/img/bg1.jpg"),0, 0,this);

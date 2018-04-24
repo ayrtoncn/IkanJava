@@ -29,9 +29,6 @@ public class Snail extends Thread implements CoinGatherer {
     this.threadName = "Gary";
   }
   
-  public void takeCoin() {
-    
-  }
 
   public boolean isRunning() {
     return running;
@@ -160,7 +157,7 @@ public class Snail extends Thread implements CoinGatherer {
           >= Aquarium.coins.get(idxFloor).getPosition().getOrdinat()
           && position.getOrdinat() - 50
           <= Aquarium.coins.get(idxFloor).getPosition().getOrdinat()) {
-        eat(Aquarium.coins.get(idxFloor));
+        takeCoin(Aquarium.coins.get(idxFloor));
       }
     } else if (idx != -1) {
       chase = true;
@@ -172,15 +169,16 @@ public class Snail extends Thread implements CoinGatherer {
           >= Aquarium.coins.get(idx).getPosition().getOrdinat()
           && this.getPosition().getOrdinat() - 50
           <= Aquarium.coins.get(idx).getPosition().getOrdinat()) {
-        eat(Aquarium.coins.get(idx));
+        takeCoin(Aquarium.coins.get(idx));
       }
     }
   }
   
+  
   /**
    * Prosedur Guppy makan Food.
    */
-  public void eat(Coin c) {
+  public void takeCoin(Coin c) {
     Aquarium.coins.get(Aquarium.coins.find(c)).stop();
     Aquarium.coins.del(Aquarium.coins.find(c));
     Aquarium.coin += c.getValue();
