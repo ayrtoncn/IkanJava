@@ -96,7 +96,6 @@ public class Food implements Runnable {
         foodPrevTime = foodNow;
         
         if (position.getOrdinat() >= Aquarium.height - 100) {
-          
           stop();
         } else {
           position.setOrdinat(position.getOrdinat()
