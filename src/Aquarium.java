@@ -68,7 +68,6 @@ final class Aquarium extends JPanel {
         }
       }
     });
-    
     f.addKeyListener(new KeyAdapter() {
       @Override
       public void keyPressed(KeyEvent e) {
@@ -235,9 +234,6 @@ final class Aquarium extends JPanel {
         }
       }
     }
-    
     f.repaint();
   }
-  
-
 }

@@ -59,7 +59,11 @@ public class Guppy extends Fish implements Runnable {
       if (min > temp) {
         min = temp;
         idx = numFood;
-        pmin = Aquarium.foods.get(numFood).getPosition();
+        try {
+          pmin = Aquarium.foods.get(numFood).getPosition();
+        } catch (ArrayIndexOutOfBoundsException e) {
+          System.out.println("Food not found");
+        }
       }
     }
     if (min != 999999999) {
