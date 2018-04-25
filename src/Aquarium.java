@@ -1,7 +1,7 @@
-import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 import java.util.Random;
+import javax.swing.*;
 
 final class Aquarium extends JPanel {
   public static int width = 1000;
@@ -14,15 +14,14 @@ final class Aquarium extends JPanel {
   private Snail snail;
   private boolean menu;
   private int egg;
-  private boolean running;
   private boolean win;
   private boolean lose;
-  public static int eggPrice = 100;
-  public static JFrame f = new JFrame();
+  public static int eggPrice = 200;
+  public static JFrame f = new JFrame("Ikan-ikan kecil");
   private Timer timer;
   
   public Aquarium() {
-    coin = 1000;
+    coin = 100;
     menu = true;
     snail = new Snail();
     guppy = new LinkedList<>();
@@ -43,10 +42,11 @@ final class Aquarium extends JPanel {
         if (e.getButton() == MouseEvent.BUTTON1) {
           boolean cointake = false;
           for (int numCoin = 0; numCoin < coins.getAmount(); numCoin++) {
-            if (!menu && coins.get(numCoin).getPosition().getAbsis() <= e.getX() + 50
+            if (!win && !lose && !menu && coins.get(numCoin).getPosition().getAbsis()
+                <= e.getX() + 10
                 && coins.get(numCoin).getPosition().getAbsis() >= e.getX() - 50
                 && coins.get(numCoin).getPosition().getOrdinat() >= e.getY() - 50
-                && coins.get(numCoin).getPosition().getOrdinat() <= e.getY() + 50) {
+                && coins.get(numCoin).getPosition().getOrdinat() <= e.getY() + 10) {
               coin += coins.get(numCoin).getValue();
               coins.get(numCoin).stop();
               coins.del(coins.find(coins.get(numCoin)));
@@ -54,7 +54,7 @@ final class Aquarium extends JPanel {
               break;
             }
           }
-          if (!menu && !cointake && (coin - 5) >= 0) {
+          if (!win && !lose && !menu && !cointake && (coin - 5) >= 0) {
             coin = coin - 5;
             foods.add(new Food(e.getX()));
             foods.get(foods.getAmount() - 1).start();
@@ -72,20 +72,21 @@ final class Aquarium extends JPanel {
       @Override
       public void keyReleased(KeyEvent e) {
         super.keyReleased(e);
-        if (!menu && e.getKeyCode() == KeyEvent.VK_G && (coin - 10) >= 0) {
+        if (!win && !lose && !menu && e.getKeyCode() == KeyEvent.VK_G && (coin - 10) >= 0) {
           coin = coin - 10;
           Random rand = new Random();
           int random = rand.nextInt(width - 280);
           guppy.add(new Guppy(new Point(random
               + 140,rand.nextInt(height - 100) + 50),'l'));
           guppy.get(guppy.getAmount() - 1).start();
-        } else if (!menu && e.getKeyCode() == KeyEvent.VK_P && (coin - 20) >= 0) {
+        } else if (!win && !lose && !menu && e.getKeyCode() == KeyEvent.VK_P && (coin - 20) >= 0) {
           coin -= 20;
           Random rand = new Random();
           piranha.add(new Piranha(new Point(rand.nextInt(width - 300)
               + 250,rand.nextInt(height - 100) + 50),'l'));
           piranha.get(piranha.getAmount() - 1).start();
-        } else if (!menu && e.getKeyCode() == KeyEvent.VK_ENTER && (coin - eggPrice) >= 0) {
+        } else if (!win && !lose && !menu && e.getKeyCode() == KeyEvent.VK_ENTER
+            && (coin - eggPrice) >= 0) {
           coin -= eggPrice;
           egg++;
         } else if (e.getKeyCode() == KeyEvent.VK_X) {
@@ -94,9 +95,12 @@ final class Aquarium extends JPanel {
       }
     });
     f.setSize(width,height);
-    f.setVisible(true);
+    f.setBounds((int)GraphicsEnvironment.getLocalGraphicsEnvironment().getCenterPoint().getX()
+            - width / 2,
+        (int)GraphicsEnvironment.getLocalGraphicsEnvironment().getCenterPoint().getY()
+            - height / 2, width,height);
     snail.start();
-    running = true;
+    f.setVisible(true);
   }
   
   /**
@@ -110,17 +114,15 @@ final class Aquarium extends JPanel {
     if (menu) {
       g.drawImage(t.getImage("img/bg1.jpg"),0, 0,this);
       g.drawImage(t.getImage("img/start.png"),(width - 140) / 2, (height - 140) / 2,this);
-      String current = new String();
     } else {
-      if (egg == 3) {
+      if (egg >= 3) {
         g.drawImage(t.getImage("img/bg1.jpg"),0, 0,this);
         g.drawString("WIN",50,50);
       } else if ((coin - 10 < 0) && (coins.getAmount() == 0)
           && (guppy.getAmount() + piranha.getAmount() == 0)) {
-            g.drawImage(t.getImage("img/bg1.jpg"),0, 0,this);
-            g.drawString("LOSE",50,50);
+        g.drawImage(t.getImage("img/bg1.jpg"),0, 0,this);
+        g.drawString("LOSE",50,50);
       } else {
-        
         g.drawImage(t.getImage("img/bg1.jpg"),0, 0,this);
         String text = "";
         text = text + coin;
