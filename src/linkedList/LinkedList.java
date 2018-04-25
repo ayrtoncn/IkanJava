@@ -1,6 +1,6 @@
-package LinkedList;
+package linkedList;
 
-import Node.Node;
+import node.Node;
 import java.lang.ArrayIndexOutOfBoundsException;
 
 public class LinkedList<T> {
@@ -8,7 +8,7 @@ public class LinkedList<T> {
   private int amount;
   
   /**
-   * LinkedList constructor.
+   * linkedList constructor.
    */
   public LinkedList() {
     head = null;
@@ -25,10 +25,10 @@ public class LinkedList<T> {
   }
   
   /**
-   * find the index from the LinkedList from given value.
+   * find the index from the linkedList from given value.
    * @param val = the value that we are looking the index for.
    * @return the index of the given value.
-   * @throws ArrayIndexOutOfBoundsException in case the value is not in the LinkedList.
+   * @throws ArrayIndexOutOfBoundsException in case the value is not in the linkedList.
    */
   public int find(T val) throws ArrayIndexOutOfBoundsException {
     Node<T> current = head;
@@ -48,16 +48,16 @@ public class LinkedList<T> {
   }
   
   /**
-   * check if LinkedList is empty.
-   * @return true if LinkedList empty and false if otherwise.
+   * check if linkedList is empty.
+   * @return true if linkedList empty and false if otherwise.
    */
   public boolean isEmpty() {
     return (amount == 0);
   }
   
   /**
-   * add new element to LinkedList, the element will be placed at the end.
-   * @param val is the value to be added to the LinkedList.
+   * add new element to linkedList, the element will be placed at the end.
+   * @param val is the value to be added to the linkedList.
    */
   public void add(T val) {
     Node<T> current = head;
@@ -91,7 +91,7 @@ public class LinkedList<T> {
   }
   
   /**
-   * get the data from LinkedList at the given index.
+   * get the data from linkedList at the given index.
    * @param i is the index.
    * @return the data at the index.
    * @throws ArrayIndexOutOfBoundsException in case the index is invalid.
@@ -109,7 +109,7 @@ public class LinkedList<T> {
   }
   
   /**
-   * Node getter.
+   * node getter.
    * @param i is the index of the node.
    * @return node at the index i.
    * @throws ArrayIndexOutOfBoundsException if i is invalid.
@@ -127,7 +127,7 @@ public class LinkedList<T> {
   }
   
   /**
-   * delete LinkedList member at the given index.
+   * delete linkedList member at the given index.
    * @param idx = the location of the member that's going to be deleted.
    * @throws ArrayIndexOutOfBoundsException in case the index is not valid.
    */

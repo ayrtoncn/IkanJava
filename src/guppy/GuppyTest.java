@@ -1,6 +1,12 @@
-import static org.junit.jupiter.api.Assertions.*;
+package guppy;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
+import aquarium.Aquarium;
+import coin.Coin;
+import food.Food;
 import org.junit.jupiter.api.Test;
+import point.Point;
 
 class GuppyTest {
 
@@ -16,14 +22,14 @@ class GuppyTest {
     Aquarium aq = new Aquarium();
     Guppy guppy = new Guppy(new Point(0,0), 'l');
     guppy.dropCoin(10);
-    assertEquals(1,Aquarium.coins.getAmount(),"There should be 1 coin in the aquarium");
+    assertEquals(1, aq.coins.getAmount(),"There should be 1 coin in the aquarium");
   }
   
   @Test
   void eatTest() {
     Aquarium aq = new Aquarium();
     Food f = new Food(0.0);
-    Aquarium.foods.add(f);
+    aq.foods.add(f);
     Guppy guppy = new Guppy(new Point(0,0), 'l');
     guppy.eat(f);
     assertEquals(1, guppy.getGrowthLevel(), "The guppy should have 1 growth level");
@@ -34,7 +40,7 @@ class GuppyTest {
     Aquarium aq = new Aquarium();
     Food f = new Food(0.0);
     f.setPosition(new Point(0,0));
-    Aquarium.foods.add(f);
+    aq.foods.add(f);
     Guppy guppy = new Guppy(new Point(0,0), 'l');
     guppy.searchFood();
     assertEquals(1, guppy.getGrowthLevel(), "The guppy should have 1 growth level");

@@ -1,17 +1,17 @@
-package Aquarium;
+package aquarium;
+
 import java.awt.*;
 import java.awt.event.*;
 import java.util.Random;
 import javax.swing.*;
-import Coin.Coin;
-import Fish.Fish;
-import Guppy.Guppy;
-import Piranha.Piranha;
-import Food.Food;
-import LinkedList.LinkedList;
-import Node.Node;
-import Snail.Snail;
-import Point.Point;
+import coin.Coin;
+import fish.Fish;
+import guppy.Guppy;
+import piranha.Piranha;
+import food.Food;
+import linkedList.LinkedList;
+import snail.Snail;
+import point.Point;
 
 public final class Aquarium extends JPanel {
   public static int width = 1000;
@@ -29,7 +29,7 @@ public final class Aquarium extends JPanel {
   public static int eggPrice = 200;
   public static JFrame f = new JFrame("Ikan-ikan kecil");
   private Timer timer;
-  
+
   public Aquarium() {
     coin = 100;
     menu = true;
@@ -39,7 +39,7 @@ public final class Aquarium extends JPanel {
     foods = new LinkedList<Food>();
     coins = new LinkedList<Coin>();
   }
-  
+
   /**
    * run berisi kode untuk mengatur interaksi antar objek dan mengatur input - input .
    */
@@ -53,10 +53,10 @@ public final class Aquarium extends JPanel {
           boolean cointake = false;
           for (int numCoin = 0; numCoin < coins.getAmount(); numCoin++) {
             if (!win && !lose && !menu && coins.get(numCoin).getPosition().getAbsis()
-                <= e.getX() + 10
-                && coins.get(numCoin).getPosition().getAbsis() >= e.getX() - 50
-                && coins.get(numCoin).getPosition().getOrdinat() >= e.getY() - 50
-                && coins.get(numCoin).getPosition().getOrdinat() <= e.getY() + 10) {
+                    <= e.getX() + 10
+                    && coins.get(numCoin).getPosition().getAbsis() >= e.getX() - 50
+                    && coins.get(numCoin).getPosition().getOrdinat() >= e.getY() - 50
+                    && coins.get(numCoin).getPosition().getOrdinat() <= e.getY() + 10) {
               coin += coins.get(numCoin).getValue();
               coins.get(numCoin).stop();
               coins.del(coins.find(coins.get(numCoin)));
@@ -70,9 +70,9 @@ public final class Aquarium extends JPanel {
             foods.get(foods.getAmount() - 1).start();
           }
           if (menu && width / 2 <= e.getX() + 50
-              && width / 2 >= e.getX() - 50
-              && height / 2 >= e.getY() - 50
-              && height / 2 <= e.getY() + 50) {
+                  && width / 2 >= e.getX() - 50
+                  && height / 2 >= e.getY() - 50
+                  && height / 2 <= e.getY() + 50) {
             menu = false;
           }
         }
@@ -85,18 +85,17 @@ public final class Aquarium extends JPanel {
         if (!win && !lose && !menu && e.getKeyCode() == KeyEvent.VK_G && (coin - 10) >= 0) {
           coin = coin - 10;
           Random rand = new Random();
-          int random = rand.nextInt(width - 280);
-          guppy.add(new Guppy(new Point(random
-              + 140,rand.nextInt(height - 100) + 50),'l'));
+          guppy.add(new Guppy(new Point(rand.nextInt(width - 280)
+                  + 140,rand.nextInt(height - 100) + 50),'l'));
           guppy.get(guppy.getAmount() - 1).start();
         } else if (!win && !lose && !menu && e.getKeyCode() == KeyEvent.VK_P && (coin - 20) >= 0) {
           coin -= 20;
           Random rand = new Random();
           piranha.add(new Piranha(new Point(rand.nextInt(width - 300)
-              + 250,rand.nextInt(height - 100) + 50),'l'));
+                  + 250,rand.nextInt(height - 100) + 50),'l'));
           piranha.get(piranha.getAmount() - 1).start();
         } else if (!win && !lose && !menu && e.getKeyCode() == KeyEvent.VK_ENTER
-            && (coin - eggPrice) >= 0) {
+                && (coin - eggPrice) >= 0) {
           coin -= eggPrice;
           egg++;
         } else if (e.getKeyCode() == KeyEvent.VK_X) {
@@ -106,19 +105,19 @@ public final class Aquarium extends JPanel {
     });
     f.setSize(width,height);
     f.setBounds((int)GraphicsEnvironment.getLocalGraphicsEnvironment().getCenterPoint().getX()
-            - width / 2,
-        (int)GraphicsEnvironment.getLocalGraphicsEnvironment().getCenterPoint().getY()
-            - height / 2, width,height);
+                    - width / 2,
+            (int)GraphicsEnvironment.getLocalGraphicsEnvironment().getCenterPoint().getY()
+                    - height / 2, width,height);
     snail.start();
     f.setVisible(true);
   }
-  
+
   /**
    * Mengatur gambar dari objek.
    * @param g = Graphics.
    */
   public synchronized void paint(Graphics g) {
-    
+
     Toolkit t = Toolkit.getDefaultToolkit();
     g.setFont(new Font("TimesRoman",Font.PLAIN, 30));
     if (menu) {
@@ -129,7 +128,7 @@ public final class Aquarium extends JPanel {
         g.drawImage(t.getImage("img/bg1.jpg"),0, 0,this);
         g.drawString("WIN",50,50);
       } else if ((coin - 10 < 0) && (coins.getAmount() == 0)
-          && (guppy.getAmount() + piranha.getAmount() == 0)) {
+              && (guppy.getAmount() + piranha.getAmount() == 0)) {
         g.drawImage(t.getImage("img/bg1.jpg"),0, 0,this);
         g.drawString("LOSE",50,50);
       } else {
@@ -142,10 +141,10 @@ public final class Aquarium extends JPanel {
         g.drawString(text, 500,50);
         if (snail.getOrientation() == 'l') {
           g.drawImage(t.getImage("img/snailkiri.png"),(int)snail.getPosition().getAbsis(),
-              (int)snail.getPosition().getOrdinat(),this);
+                  (int)snail.getPosition().getOrdinat(),this);
         } else {
           g.drawImage(t.getImage("img/snailkanan.png"),(int)snail.getPosition().getAbsis(),
-              (int)snail.getPosition().getOrdinat(),this);
+                  (int)snail.getPosition().getOrdinat(),this);
         }
         for (int numGup = 0;numGup < guppy.getAmount();numGup++) {
           try {
@@ -171,7 +170,7 @@ public final class Aquarium extends JPanel {
                 }
               }
               g.drawImage(t.getImage(link), (int)guppy.get(numGup).getPosition().getAbsis(),
-                  (int)guppy.get(numGup).getPosition().getOrdinat(),this);
+                      (int)guppy.get(numGup).getPosition().getOrdinat(),this);
             } else {
               String link;
               if (guppy.get(numGup).getGrowthLevel() <= 3) {
@@ -194,7 +193,7 @@ public final class Aquarium extends JPanel {
                 }
               }
               g.drawImage(t.getImage(link), (int)guppy.get(numGup).getPosition().getAbsis(),
-                  (int)guppy.get(numGup).getPosition().getOrdinat(),this);
+                      (int)guppy.get(numGup).getPosition().getOrdinat(),this);
             }
           } catch (Exception i) {
             System.out.println("Index not found");
@@ -205,22 +204,22 @@ public final class Aquarium extends JPanel {
             if (piranha.get(numPin).getOrientation() == 'l') {
               if (!piranha.get(numPin).isHungry()) {
                 g.drawImage(t.getImage("img/piranhakiri.png"),
-                    (int) piranha.get(numPin).getPosition().getAbsis(),
-                    (int) piranha.get(numPin).getPosition().getOrdinat(), this);
+                        (int) piranha.get(numPin).getPosition().getAbsis(),
+                        (int) piranha.get(numPin).getPosition().getOrdinat(), this);
               } else {
                 g.drawImage(t.getImage("img/piranhakirilaper.png"),
-                    (int) piranha.get(numPin).getPosition().getAbsis(),
-                    (int) piranha.get(numPin).getPosition().getOrdinat(), this);
+                        (int) piranha.get(numPin).getPosition().getAbsis(),
+                        (int) piranha.get(numPin).getPosition().getOrdinat(), this);
               }
             } else {
               if (!piranha.get(numPin).isHungry()) {
                 g.drawImage(t.getImage("img/piranhakanan.png"),
-                    (int) piranha.get(numPin).getPosition().getAbsis(),
-                    (int) piranha.get(numPin).getPosition().getOrdinat(), this);
+                        (int) piranha.get(numPin).getPosition().getAbsis(),
+                        (int) piranha.get(numPin).getPosition().getOrdinat(), this);
               } else {
                 g.drawImage(t.getImage("img/piranhakananlaper.png"),
-                    (int) piranha.get(numPin).getPosition().getAbsis(),
-                    (int) piranha.get(numPin).getPosition().getOrdinat(), this);
+                        (int) piranha.get(numPin).getPosition().getAbsis(),
+                        (int) piranha.get(numPin).getPosition().getOrdinat(), this);
               }
             }
           } catch (Exception i) {
@@ -230,8 +229,8 @@ public final class Aquarium extends JPanel {
         for (int numFood = 0; numFood < foods.getAmount(); numFood++) {
           try {
             g.drawImage(t.getImage("img/pelet.png"),
-                (int) foods.get(numFood).getPosition().getAbsis(),
-                (int) foods.get(numFood).getPosition().getOrdinat(), this);
+                    (int) foods.get(numFood).getPosition().getAbsis(),
+                    (int) foods.get(numFood).getPosition().getOrdinat(), this);
           } catch (Exception i) {
             System.out.println("Index not found");
           }
@@ -239,8 +238,8 @@ public final class Aquarium extends JPanel {
         for (int numCoin = 0; numCoin < coins.getAmount(); numCoin++) {
           try {
             g.drawImage(t.getImage("img/coin.png"),
-                (int) coins.get(numCoin).getPosition().getAbsis(),
-                (int) coins.get(numCoin).getPosition().getOrdinat(), this);
+                    (int) coins.get(numCoin).getPosition().getAbsis(),
+                    (int) coins.get(numCoin).getPosition().getOrdinat(), this);
           } catch (Exception i) {
             System.out.println("Index not found");
           }

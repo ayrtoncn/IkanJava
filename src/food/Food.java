@@ -1,6 +1,6 @@
-package Food;
-import Point.Point;
-import Aquarium.Aquarium;
+package food;
+import point.Point;
+import aquarium.Aquarium;
 public class Food implements Runnable {
   private boolean running;
   private String name;
@@ -13,11 +13,11 @@ public class Food implements Runnable {
   private String threadName;
   
   /**
-   * Constructor for class Food.
+   * Constructor for class food.
    * @param absis = x-coordinate of food.
    */
   public Food(double absis) {
-    this.name = "Food";
+    this.name = "food";
     this.movementSpeed = 50;
     this.position = new Point(absis,0);
     this.threadName = name;
@@ -108,9 +108,9 @@ public class Food implements Runnable {
       
       
     } catch (InterruptedException e) {
-      System.out.println("Thread Food interrupted.");
+      System.out.println("Thread food interrupted.");
     }
-    System.out.println("Thread Food exiting.");
+    System.out.println("Thread food exiting.");
   }
   
   /**

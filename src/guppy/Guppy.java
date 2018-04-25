@@ -1,13 +1,11 @@
-package Guppy;
-import java.util.Date;
+package guppy;
+
 import java.util.Random;
-import java.util.UUID;
-import java.util.concurrent.TimeUnit;
-import Fish.Fish;
-import Point.Point;
-import Coin.Coin;
-import Aquarium.Aquarium;
-import Food.Food;
+import fish.Fish;
+import point.Point;
+import coin.Coin;
+import aquarium.Aquarium;
+import food.Food;
 
 public class Guppy extends Fish implements Runnable {
   private int growthLevel;
@@ -18,28 +16,28 @@ public class Guppy extends Fish implements Runnable {
   private Thread threadGuppy;
   private String threadName;
 
-  
 
-  /**Constructor Guppy.
-   * 
-   * @param position = posisi Guppy
-   * @param orientation = orientasi arah Guppy
+
+  /**Constructor guppy.
+   *
+   * @param position = posisi guppy
+   * @param orientation = orientasi arah guppy
    */
   public Guppy(Point position, char orientation) {
-    super("Guppy", guppyPrice, guppyHungerPeriod, guppyCoinPeriod, guppyMovementSpeed,
-        position, orientation);
+    super("guppy", guppyPrice, guppyHungerPeriod, guppyCoinPeriod, guppyMovementSpeed,
+            position, orientation);
     growthLevel = 0;
     threadName = name;
   }
-  
+
   public int getGrowthLevel() {
     return growthLevel;
   }
-  
+
   public void setGrowthLevel(int growthLevel) {
     this.growthLevel = growthLevel;
   }
-  
+
   /**
    * create new coin on guppy position.
    * @param value =  value of coins.
@@ -50,7 +48,7 @@ public class Guppy extends Fish implements Runnable {
     temp.start();
     Aquarium.coins.add(temp);
   }
-  
+
   /**
    * search nearest food.
    */
@@ -66,7 +64,7 @@ public class Guppy extends Fish implements Runnable {
           min = temp;
           idx = numFood;
           pmin = Aquarium.foods.get(numFood).getPosition();
-        } 
+        }
       } catch (Exception e) {
         System.out.println(e);
       }
@@ -74,21 +72,25 @@ public class Guppy extends Fish implements Runnable {
     if (min != 999999999) {
       chase = true;
       setpoint = pmin;
-      if (this.getPosition().getAbsis() + 50
-          >= Aquarium.foods.get(idx).getPosition().getAbsis()
-          && this.getPosition().getAbsis() - 50
-          <= Aquarium.foods.get(idx).getPosition().getAbsis()
-          && this.getPosition().getOrdinat() + 50
-          >= Aquarium.foods.get(idx).getPosition().getOrdinat()
-          && this.getPosition().getOrdinat() - 50
-          <= Aquarium.foods.get(idx).getPosition().getOrdinat()) {
-        eat(Aquarium.foods.get(idx));
+      try {
+        if (this.getPosition().getAbsis() + 50
+                >= Aquarium.foods.get(idx).getPosition().getAbsis()
+                && this.getPosition().getAbsis() - 50
+                <= Aquarium.foods.get(idx).getPosition().getAbsis()
+                && this.getPosition().getOrdinat() + 50
+                >= Aquarium.foods.get(idx).getPosition().getOrdinat()
+                && this.getPosition().getOrdinat() - 50
+                <= Aquarium.foods.get(idx).getPosition().getOrdinat()) {
+          eat(Aquarium.foods.get(idx));
+        }
+      } catch (Exception e) {
+        System.out.println("Index not found");
       }
     }
   }
-  
+
   /**
-   * Prosedur Guppy makan Food.
+   * Prosedur guppy makan food.
    */
   public synchronized void eat(Food f) {
     hungerPeriod = guppyHungerPeriod;
@@ -102,11 +104,11 @@ public class Guppy extends Fish implements Runnable {
       System.out.println("Eat exception");
     }
   }
-  
+
   public  void stop() {
     running = false;
   }
-  
+
   /**
    * run thread.
    */
@@ -124,7 +126,7 @@ public class Guppy extends Fish implements Runnable {
       try {
         Thread.sleep(1);
       } catch (InterruptedException e) {
-        System.out.println("Thread Guppy interrupted.");
+        System.out.println("Thread guppy interrupted.");
       }
       now = System.nanoTime();
       secSinceLast = now - prevtime;
@@ -156,9 +158,9 @@ public class Guppy extends Fish implements Runnable {
       }
       move();
     }
-    System.out.println("Thread Guppy exiting.");
+    System.out.println("Thread guppy exiting.");
   }
-  
+
   /**
    * start thread.
    */

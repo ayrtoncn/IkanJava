@@ -1,5 +1,6 @@
+package node;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import org.junit.jupiter.api.Test;
 
@@ -8,7 +9,7 @@ class NodeTest {
   @Test
   void constructorTest() {
     Node<Integer> newNode = new Node<Integer>(10);
-    assertEquals((Integer)10, newNode.getData(), "The Node data should be 10");
+    assertEquals((Integer)10, newNode.getData(), "The node data should be 10");
   }
 
   @Test

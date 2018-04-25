@@ -1,12 +1,9 @@
-package Piranha;
-import java.util.Date;
+package piranha;
 import java.util.Random;
-import Fish.Fish;
-import Point.Point;
-import Aquarium.Aquarium;
-import Guppy.Guppy;
-import Coin.Coin;
-
+import fish.Fish;
+import point.Point;
+import aquarium.Aquarium;
+import coin.Coin;
 
 public class Piranha extends Fish implements  Runnable {
   private static int piranhaCoinPeriod = 5;
@@ -15,22 +12,22 @@ public class Piranha extends Fish implements  Runnable {
   private static int piranhaPrice = 20;
   private Thread threadPiranha;
   private String threadName;
-  
+
   /**
    * constructor for piranha.
    * @param position = piranha position for the first time.
    * @param orientation = orientation of piranha for the first time.
    */
   public Piranha(Point position, char orientation) {
-    super("Piranha", piranhaPrice, piranhaHungryPeriod, piranhaCoinPeriod, piranhaMovementSpeed,
-        position, orientation);
+    super("piranha", piranhaPrice, piranhaHungryPeriod, piranhaCoinPeriod, piranhaMovementSpeed,
+            position, orientation);
     threadName = name;
   }
 
   /**
-   * Prosedur Piranha memakan Guppy.
+   * Prosedur piranha memakan guppy.
    */
-  public synchronized void eat(Guppy g) {
+  public synchronized void eat(Fish g) {
     hungerPeriod = piranhaHungryPeriod;
     chase = false;
     hungry = false;
@@ -50,7 +47,7 @@ public class Piranha extends Fish implements  Runnable {
       System.out.println("out");
     }
   }
-  
+
   /**
    * search nearest guppy.
    */
@@ -72,13 +69,13 @@ public class Piranha extends Fish implements  Runnable {
         chase = true;
         setpoint = pmin;
         if (this.getPosition().getAbsis() + 50
-            >= Aquarium.guppy.get(idx).getPosition().getAbsis()
-            && this.getPosition().getAbsis() - 50
-            <= Aquarium.guppy.get(idx).getPosition().getAbsis()
-            && this.getPosition().getOrdinat() + 50
-            >= Aquarium.guppy.get(idx).getPosition().getOrdinat()
-            && this.getPosition().getOrdinat() - 50
-            <= Aquarium.guppy.get(idx).getPosition().getOrdinat()) {
+                >= Aquarium.guppy.get(idx).getPosition().getAbsis()
+                && this.getPosition().getAbsis() - 50
+                <= Aquarium.guppy.get(idx).getPosition().getAbsis()
+                && this.getPosition().getOrdinat() + 50
+                >= Aquarium.guppy.get(idx).getPosition().getOrdinat()
+                && this.getPosition().getOrdinat() - 50
+                <= Aquarium.guppy.get(idx).getPosition().getOrdinat()) {
           eat(Aquarium.guppy.get(idx));
         }
       }
@@ -86,7 +83,15 @@ public class Piranha extends Fish implements  Runnable {
       System.out.println("out");
     }
   }
-  
+
+  public int getGrowthLevel() {
+    return 1;
+  }
+
+  public void stop() {
+    running = false;
+  }
+
   /**
    * run thread.
    */
@@ -104,7 +109,7 @@ public class Piranha extends Fish implements  Runnable {
       try {
         Thread.sleep(1);
       } catch (InterruptedException e) {
-        System.out.println("Thread Piranha interrupted.");
+        System.out.println("Thread piranha interrupted.");
       }
       now = System.nanoTime();
       secSinceLast = now - prevtime;
@@ -115,15 +120,15 @@ public class Piranha extends Fish implements  Runnable {
         hungry = true;
         searchFood();
       } else if (hungerPeriod < 0) {
-        running = false;
+        stop();
         Aquarium.piranha.del(Aquarium.piranha.find(this));
       }
-      
+
       move();
     }
-    System.out.println("Thread Piranha exiting.");
+    System.out.println("Thread piranha exiting.");
   }
-  
+
   /**
    * start thread.
    */
@@ -133,7 +138,7 @@ public class Piranha extends Fish implements  Runnable {
       threadPiranha.start();
     }
   }
-  
+
   /**
    * create new coin on piraha position after eating guppy.
    * @param value = guppy.growthLevel * guppy.price.
