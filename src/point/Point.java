@@ -1,4 +1,4 @@
-
+package point;
 
 public class Point {
   private double absis;
@@ -30,7 +30,7 @@ public class Point {
     this.absis = absis;
   }
   
-  double getDistance(Point point) {
+  public double getDistance(Point point) {
     return Math.sqrt((absis - point.absis) * (absis - point.absis)
         + (ordinat - point.ordinat) * (ordinat - point.ordinat));
   }

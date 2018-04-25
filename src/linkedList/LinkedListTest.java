@@ -1,7 +1,7 @@
-
+package linkedList;
 import static org.junit.jupiter.api.Assertions.assertEquals;
-
 import org.junit.jupiter.api.Test;
+import node.Node;
 
 class LinkedListTest {
 

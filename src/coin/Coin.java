@@ -1,4 +1,7 @@
+package coin;
 
+import point.Point;
+import aquarium.Aquarium;
 
 public class Coin implements Runnable {
   private boolean running;
@@ -13,7 +16,7 @@ public class Coin implements Runnable {
   private String threadName;
   
   /**
-   * Constructor for class Coin.
+   * Constructor for class coin.
    * @param value = value of coin.
    * @param movementSpeed = movement speed (down) of coin.
    * @param position = initial coordinate of coin.
@@ -115,9 +118,9 @@ public class Coin implements Runnable {
       // Let the thread sleep for a while.
       
     } catch (InterruptedException e) {
-      System.out.println("Thread Coin interrupted.");
+      System.out.println("Thread coin interrupted.");
     }
-    System.out.println("Thread Coin exit.");
+    System.out.println("Thread coin exit.");
     running = false;
   }
   

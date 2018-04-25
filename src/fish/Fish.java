@@ -1,5 +1,7 @@
-
-import java.util.Date;
+package fish;
+import coin.CoinProducer;
+import point.Point;
+import aquarium.Aquarium;
 import java.util.Random;
 
 
@@ -32,7 +34,7 @@ public abstract class Fish implements CoinProducer {
    * @param position = position of fish.
    * @param orientation = orientation of fish l / r.
    */
-  
+
   public Fish(String name, int price, double hungerPeriod,
               double coinPeriod, int movementSpeed, Point position, char orientation) {
     this.name = name;
@@ -53,156 +55,156 @@ public abstract class Fish implements CoinProducer {
     this.secSinceLast = 0;
     this.chase = false;
   }
-  
+
   public String getName() {
     return name;
   }
-  
+
   public int getPrice() {
     return price;
   }
-  
+
   public boolean isHungry() {
     return hungry;
   }
-  
+
   public boolean getDropCoin() {
     return dropCoin;
   }
-  
+
   public double getHungerPeriod() {
     return hungerPeriod;
   }
-  
+
   public double getCoinPeriod() {
     return coinPeriod;
   }
-  
+
   public int getMovementSpeed() {
     return movementSpeed;
   }
-  
+
   public Point getPosition() {
     return position;
   }
-  
+
   public Point getsetpoint() {
     return setpoint;
   }
-  
+
   public char getOrientation() {
     return orientation;
   }
-  
+
   public double getDelay() {
     return delay;
   }
-  
+
   public double getDirection() {
     return direction;
   }
-  
+
   public void setDirection(double direction) {
     this.direction = direction;
   }
-  
+
   public double getStart() {
     return start;
   }
-  
+
   public double getNow() {
     return now;
   }
-  
+
   public double getPrevtime() {
     return prevtime;
   }
-  
+
   public double getSecSinceLast() {
     return secSinceLast;
   }
-  
+
   public boolean isChase() {
     return chase;
   }
-  
+
   public void setChase(boolean chase) {
     this.chase = chase;
   }
-  
+
   public void setSecSinceLast(double secSinceLast) {
     this.secSinceLast = secSinceLast;
   }
-  
+
   public void setPrevtime(double prevtime) {
     this.prevtime = prevtime;
   }
-  
+
   public void setNow(double now) {
     this.now = now;
   }
-  
+
   public void setStart(double start) {
     this.start = start;
   }
-  
+
   public void setDelay(double delay) {
     this.delay = delay;
   }
-  
+
   public void setOrientation(char orientation) {
     this.orientation = orientation;
   }
-  
+
   public void setsetpoint(Point setpoint) {
     this.setpoint = setpoint;
   }
-  
+
   public void setPosition(Point position) {
     this.position = position;
   }
-  
+
   public void setMovementSpeed(int movementSpeed) {
     this.movementSpeed = movementSpeed;
   }
-  
+
   public void setCoinPeriod(double coinPeriod) {
     this.coinPeriod = coinPeriod;
   }
-  
+
   public void setHungerPeriod(double hungerPeriod) {
     this.hungerPeriod = hungerPeriod;
   }
-  
+
   public void setDropCoin(boolean dropCoin) {
     this.dropCoin = dropCoin;
   }
-  
+
   public void setHungry(boolean hungry) {
     this.hungry = hungry;
   }
-  
+
   public void setPrice(int price) {
     this.price = price;
   }
-  
+
   public void setName(String name) {
     this.name = name;
   }
-  
+
   public boolean isRunning() {
     return running;
   }
-  
+
   /**
    * move fish according to his/her setpoint point.
    *
    */
-  
+
   public void move() {
     if (!chase) {
       if ((direction <= 3.14 && direction >= (3.14 / 2))
-          || (direction >= -3.14 && direction <= -(3.14 / 2))) {
+              || (direction >= -3.14 && direction <= -(3.14 / 2))) {
         orientation = 'l';
       } else {
         orientation = 'r';
@@ -221,11 +223,11 @@ public abstract class Fish implements CoinProducer {
         start = System.nanoTime();
       }
       if ((System.nanoTime() - start) <=  delay) {
-        
+
         secSinceLast /= 1000000000;
         position.setAbsis(position.getAbsis() + movementSpeed * secSinceLast * Math.cos(direction));
         position.setOrdinat(position.getOrdinat() + movementSpeed
-            * secSinceLast * Math.sin(direction));
+                * secSinceLast * Math.sin(direction));
       } else {
         start = System.nanoTime();
         Random rand = new Random();
@@ -239,19 +241,23 @@ public abstract class Fish implements CoinProducer {
       double dest;
       secSinceLast /= 1000000000;
       dest = Math.atan2(
-        setpoint.getOrdinat() - position.getOrdinat(),setpoint.getAbsis() - position.getAbsis());
+              setpoint.getOrdinat() - position.getOrdinat(),setpoint.getAbsis() - position.getAbsis());
       if ((dest <= 3.14 && dest >= (3.14 / 2))
-          || (dest >= -3.14 && dest <= -(3.14 / 2))) {
+              || (dest >= -3.14 && dest <= -(3.14 / 2))) {
         orientation = 'l';
       } else {
         orientation = 'r';
       }
       position.setAbsis(position.getAbsis() + movementSpeed * secSinceLast * Math.cos(dest));
       position.setOrdinat(position.getOrdinat() + movementSpeed
-          * secSinceLast * Math.sin(dest));
+              * secSinceLast * Math.sin(dest));
     }
   }
-  
-  
-  //abstract public void dropCoin() ;
+
+
+  public abstract void start();
+
+  public abstract int getGrowthLevel();
+
+  public abstract void stop();
 }
