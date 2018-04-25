@@ -75,8 +75,7 @@ final class Aquarium extends JPanel {
         if (!win && !lose && !menu && e.getKeyCode() == KeyEvent.VK_G && (coin - 10) >= 0) {
           coin = coin - 10;
           Random rand = new Random();
-          int random = rand.nextInt(width - 280);
-          guppy.add(new Guppy(new Point(random
+          guppy.add(new Guppy(new Point(rand.nextInt(width - 280)
               + 140,rand.nextInt(height - 100) + 50),'l'));
           guppy.get(guppy.getAmount() - 1).start();
         } else if (!win && !lose && !menu && e.getKeyCode() == KeyEvent.VK_P && (coin - 20) >= 0) {
