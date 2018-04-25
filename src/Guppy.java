@@ -69,15 +69,19 @@ public class Guppy extends Fish implements Runnable {
     if (min != 999999999) {
       chase = true;
       setpoint = pmin;
-      if (this.getPosition().getAbsis() + 50
-          >= Aquarium.foods.get(idx).getPosition().getAbsis()
-          && this.getPosition().getAbsis() - 50
-          <= Aquarium.foods.get(idx).getPosition().getAbsis()
-          && this.getPosition().getOrdinat() + 50
-          >= Aquarium.foods.get(idx).getPosition().getOrdinat()
-          && this.getPosition().getOrdinat() - 50
-          <= Aquarium.foods.get(idx).getPosition().getOrdinat()) {
-        eat(Aquarium.foods.get(idx));
+      try {
+        if (this.getPosition().getAbsis() + 50
+            >= Aquarium.foods.get(idx).getPosition().getAbsis()
+            && this.getPosition().getAbsis() - 50
+            <= Aquarium.foods.get(idx).getPosition().getAbsis()
+            && this.getPosition().getOrdinat() + 50
+            >= Aquarium.foods.get(idx).getPosition().getOrdinat()
+            && this.getPosition().getOrdinat() - 50
+            <= Aquarium.foods.get(idx).getPosition().getOrdinat()) {
+          eat(Aquarium.foods.get(idx));
+        }
+      } catch (Exception e) {
+        System.out.println("Index not found");
       }
     }
   }
