@@ -1,6 +1,12 @@
-
+package Piranha;
 import java.util.Date;
 import java.util.Random;
+import Fish.Fish;
+import Point.Point;
+import Aquarium.Aquarium;
+import Guppy.Guppy;
+import Coin.Coin;
+
 
 public class Piranha extends Fish implements  Runnable {
   private static int piranhaCoinPeriod = 5;

@@ -1,5 +1,6 @@
-
-
+package Coin;
+import Point.Point;
+import Aquarium.Aquarium;
 public class Coin implements Runnable {
   private boolean running;
   private int value;

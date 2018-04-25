@@ -1,5 +1,6 @@
+package LinkedList;
 
-
+import Node.Node;
 import java.lang.ArrayIndexOutOfBoundsException;
 
 public class LinkedList<T> {
@@ -9,7 +10,7 @@ public class LinkedList<T> {
   /**
    * LinkedList constructor.
    */
-  LinkedList() {
+  public LinkedList() {
     head = null;
     amount = 0;
   }
@@ -18,7 +19,7 @@ public class LinkedList<T> {
    * constructor with a node as initial head value.
    * @param nodeInit = the node to fill head.
    */
-  LinkedList(Node<T> nodeInit) {
+  public LinkedList(Node<T> nodeInit) {
     this.head = new Node<T>(nodeInit);
     amount = 1;
   }
@@ -29,7 +30,7 @@ public class LinkedList<T> {
    * @return the index of the given value.
    * @throws ArrayIndexOutOfBoundsException in case the value is not in the LinkedList.
    */
-  int find(T val) throws ArrayIndexOutOfBoundsException {
+  public int find(T val) throws ArrayIndexOutOfBoundsException {
     Node<T> current = head;
     int i = 0;
     while (current.getData() != val && ++i < amount) {
@@ -42,7 +43,7 @@ public class LinkedList<T> {
     }
   }
   
-  int getAmount() {
+  public int getAmount() {
     return amount;
   }
   
@@ -50,7 +51,7 @@ public class LinkedList<T> {
    * check if LinkedList is empty.
    * @return true if LinkedList empty and false if otherwise.
    */
-  boolean isEmpty() {
+  public boolean isEmpty() {
     return (amount == 0);
   }
   
@@ -58,7 +59,7 @@ public class LinkedList<T> {
    * add new element to LinkedList, the element will be placed at the end.
    * @param val is the value to be added to the LinkedList.
    */
-  void add(T val) {
+  public void add(T val) {
     Node<T> current = head;
     if (amount == 0) {
       head = new Node<T>(val);
@@ -77,7 +78,7 @@ public class LinkedList<T> {
    * will remove ALL occurrence.
    * @param val is the value we want to remove.
    */
-  void remove(T val) throws ArrayIndexOutOfBoundsException {
+  public void remove(T val) throws ArrayIndexOutOfBoundsException {
     try {
       int idx = find(val);
       del(idx);
@@ -95,7 +96,7 @@ public class LinkedList<T> {
    * @return the data at the index.
    * @throws ArrayIndexOutOfBoundsException in case the index is invalid.
    */
-  T get(int i) throws ArrayIndexOutOfBoundsException {
+  public T get(int i) throws ArrayIndexOutOfBoundsException {
     if (i >= amount || i < 0) {
       throw new ArrayIndexOutOfBoundsException();
     } else {
@@ -113,7 +114,7 @@ public class LinkedList<T> {
    * @return node at the index i.
    * @throws ArrayIndexOutOfBoundsException if i is invalid.
    */
-  Node<T> getNode(int i) throws ArrayIndexOutOfBoundsException {
+  public Node<T> getNode(int i) throws ArrayIndexOutOfBoundsException {
     Node<T> current = head;
     if (i >= amount || i < 0) {
       throw new ArrayIndexOutOfBoundsException();
@@ -130,7 +131,7 @@ public class LinkedList<T> {
    * @param idx = the location of the member that's going to be deleted.
    * @throws ArrayIndexOutOfBoundsException in case the index is not valid.
    */
-  void del(int idx) throws ArrayIndexOutOfBoundsException {
+  public void del(int idx) throws ArrayIndexOutOfBoundsException {
     if (idx >= amount || idx < 0) {
       throw new ArrayIndexOutOfBoundsException();
     }

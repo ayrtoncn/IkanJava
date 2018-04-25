@@ -1,4 +1,8 @@
-
+package Snail;
+import Coin.CoinGatherer;
+import Coin.Coin;
+import Point.Point;
+import Aquarium.Aquarium;
 
 public class Snail extends Thread implements CoinGatherer {
   private boolean running;

@@ -1,4 +1,6 @@
-
+package Food;
+import Point.Point;
+import Aquarium.Aquarium;
 public class Food implements Runnable {
   private boolean running;
   private String name;

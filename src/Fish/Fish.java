@@ -1,4 +1,7 @@
-
+package Fish;
+import Coin.CoinProducer;
+import Point.Point;
+import Aquarium.Aquarium;
 import java.util.Date;
 import java.util.Random;
 
@@ -193,7 +196,7 @@ public abstract class Fish implements CoinProducer {
   public boolean isRunning() {
     return running;
   }
-  
+
   /**
    * move fish according to his/her setpoint point.
    *

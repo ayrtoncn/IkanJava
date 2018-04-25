@@ -1,6 +1,7 @@
 import static org.junit.jupiter.api.Assertions.*;
-
+import Coin.Coin;
 import org.junit.jupiter.api.Test;
+import Point.Point;
 
 class CoinTest {
 

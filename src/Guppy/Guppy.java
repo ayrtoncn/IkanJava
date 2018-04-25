@@ -1,8 +1,13 @@
-
+package Guppy;
 import java.util.Date;
 import java.util.Random;
 import java.util.UUID;
 import java.util.concurrent.TimeUnit;
+import Fish.Fish;
+import Point.Point;
+import Coin.Coin;
+import Aquarium.Aquarium;
+import Food.Food;
 
 public class Guppy extends Fish implements Runnable {
   private int growthLevel;

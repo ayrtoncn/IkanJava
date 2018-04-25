@@ -1,6 +1,8 @@
+package Food;
 import org.junit.jupiter.api.Test;
-
 import static org.junit.jupiter.api.Assertions.*;
+import Food.Food;
+import Aquarium.Aquarium;
 
 class FoodTest {
 

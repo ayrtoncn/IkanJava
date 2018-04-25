@@ -1,14 +1,24 @@
+package Aquarium;
 import java.awt.*;
 import java.awt.event.*;
 import java.util.Random;
 import javax.swing.*;
+import Coin.Coin;
+import Fish.Fish;
+import Guppy.Guppy;
+import Piranha.Piranha;
+import Food.Food;
+import LinkedList.LinkedList;
+import Node.Node;
+import Snail.Snail;
+import Point.Point;
 
-final class Aquarium extends JPanel {
+public final class Aquarium extends JPanel {
   public static int width = 1000;
   public static int height = 800;
   public static int coin;
-  public static LinkedList<Guppy> guppy;
-  public static LinkedList<Piranha> piranha;
+  public static LinkedList<Fish> guppy;
+  public static LinkedList<Fish> piranha;
   public static LinkedList<Coin> coins;
   public static LinkedList<Food> foods;
   private Snail snail;
@@ -24,10 +34,10 @@ final class Aquarium extends JPanel {
     coin = 100;
     menu = true;
     snail = new Snail();
-    guppy = new LinkedList<>();
-    piranha =  new LinkedList<>();
-    foods = new LinkedList<>();
-    coins = new LinkedList<>();
+    guppy = new LinkedList<Fish>();
+    piranha =  new LinkedList<Fish>();
+    foods = new LinkedList<Food>();
+    coins = new LinkedList<Coin>();
   }
   
   /**
