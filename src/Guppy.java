@@ -130,7 +130,11 @@ public class Guppy extends Fish implements Runnable {
         hungry = true;
         searchFood();
       } else if (hungerPeriod < 0) {
-        Aquarium.guppy.del(Aquarium.guppy.find(this));
+        try {
+          Aquarium.guppy.del(Aquarium.guppy.find(this));
+        } catch  (Exception i) {
+          System.out.println("Index not found");
+        }
         running = false;
       }
 
