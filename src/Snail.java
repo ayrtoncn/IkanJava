@@ -1,4 +1,4 @@
-
+import java.util.Random;
 
 public class Snail extends Thread implements CoinGatherer {
   private boolean running;
@@ -20,7 +20,9 @@ public class Snail extends Thread implements CoinGatherer {
     this.running = true;
     this.orientation = 'l';
     this.movementSpeed = 50;
-    this.position = new Point(80,Aquarium.height - 140);
+    Random rand = new Random();
+    this.position = new Point(rand.nextInt(Aquarium.width - 280) + 140,
+      Aquarium.height - 140);
     this.setpoint = new Point(0,0);
     this.snailNow = 0;
     this.snailPrevtime = 0;
